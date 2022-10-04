@@ -22,4 +22,7 @@ chunks and report the location of any errors.
 send and receive text at any time.
 
 Results:
+We are able to encode messages of 11 bits with parity bits and then use these
+bits to fix single errors and recognize 2 and sometimes more errors. 
 
+These findings are exciting. We will now integrate this code into our link layer which will hopefully decrease our bit width.

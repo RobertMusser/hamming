@@ -1,4 +1,6 @@
 
+from functools import reduce
+
 # encode a message with the proper pairity bits
 # TODO currently messages are size 11
 def encode(message):
@@ -55,18 +57,31 @@ def encode(message):
 
 # decode a message. Return correcred message, unchanged message if no errors, and False 
 # if there's more than 1 error
+# Stolen from: https://www.youtube.com/watch?v=b3NxrZOu_CE&t=0s
 def decode(code):
-    # TODO figure out tomorrow
-    message = [code[3]] + code[5:8] + code[9:16]
-    right_code = encode(message)
-    print(right_code)
-    print(code)
-    if right_code == code:
-        return code
-    else:
-        # at least one error
+	# xor all every index holding a 1
+	loc = reduce(lambda x, y: x ^ y, [i for i, bit in enumerate(code) if bit])
+	# no error
+	if loc == 0:
+		message = [code[3]] + code[5:8] + code[9:16]
+		return message
+	else:
+		# fix single error 
+		code[loc] = int(not code[loc])
+		# now check for multiple errors
+		count = 0
+		for bit in code:
+			count += int(bit)
+		if count % 2:
+			# 2 or more errors, we got nothing
+			return False
+		message = [code[3]] + code[5:8] + code[9:16]
+		return message
 
-msg = encode("00011001101")
-msg[1] = 1
-decode(msg)
+msg = list("11100110001")
+msg = encode(msg)
+msg[15] = int(not msg[15])
+msg[14] = int(not msg[14])
+print(msg)
+print(decode(msg))
 
