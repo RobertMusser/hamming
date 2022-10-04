@@ -1,0 +1,25 @@
+Simay
+Quattro 
+James
+
+Experiment: Implementing Hamming Codes
+Can we implement a hamming code library with encode and decode methods?
+
+Motivation: 
+Our bits per secound is currently 10. This is very slow. One way to increase
+speed is to encode our data in such a way that a few bit flips can be caught
+and fixed by the receiver. Hamming codes allow us to do this. By using
+cleverly placed parity bits, we can do a binary search for a single bit error
+and fix it, even if it's one of the parity bits! Very cool, will hopefully
+increase speed.
+
+Experimental Setup / Expected Results:
+Will write a hamming library that includes a encode and decode method. The
+encode method, given a block of data and a chuck size, will split the data up
+into chunks of that size. Then, each chunk will be encoded by adding/inserting
+the correct parity bits. The decode method will take an encoded series of
+chunks and report the location of any errors.
+send and receive text at any time.
+
+Results:
+
