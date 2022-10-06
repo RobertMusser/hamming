@@ -15,47 +15,23 @@ def encode(message):
     mid_row_i    = [9,  10, 11, 12, 13, 14, 15]
     bottom_row_i = [17, 18, 19, 20, 21, 22]
     # set odd col pairity bit
-    odd_col = []
-    for i in odd_col_i:
-        odd_col.append(code[i])
-    code[1] = 1 if odd_col.count(1) % 2 else code[1] = 0
-
-
-
-    # TODO here
-    # set odd col pairity bit
-    right_half_count = 0 # number of 1s in the odd cols
-    for i in right_half:
-        right_half_count += code[i]
-    if right_half_count % 2:
-        code[2] = 1
-    else:
-        code[2] = 0
-    # set odd col pairity bit
-    even_rows_count = 0 # number of 1s in the odd cols
-    for i in even_rows:
-        even_rows_count += code[i]
-    if even_rows_count % 2:
-        code[4] = 1
-    else:
-        code[4] = 0
-    # set bottom half pairity bit
-    bottom_half_count = 0 # number of 1s in the odd cols
-    for i in bottom_half:
-        bottom_half_count += code[i]
-    if bottom_half_count % 2:
-        code[8] = 1
-    else:
-        code[8] = 0
+    odd_col = [code[i] for i in odd_col_i]
+    code[1] = 1 if odd_col.count(1) % 2 else 0
+    # set w2 col pairty bit
+    w2_col = [code[i] for i in w2_col_i]
+    code[2] = 1 if w2_col.count(1) % 2 else 0
+    # set right half pairty bit
+    right_half = [code[i] for i in right_half_i]
+    code[4] = 1 if right_half.count(1) % 2 else 0
+    # set middle row pairty bit
+    mid_row = [code[i] for i in mid_row_i]
+    code[8] = 1 if mid_row.count(1) % 2 else 0
+    # set bottom row pairty bit
+    bottom_row = [code[i] for i in bottom_row_i]
+    code[16] = 1 if bottom_row.count(1) % 2 else 0
     # set total pairity bit
-    total_count = 0
-    for bit in code:
-        if bit != "x":
-            total_count += bit
-    if total_count % 2:
-        code[0] = 1
-    else:
-        code[0] = 0
+    total_count = code.count(1)
+    code[0] = 1 if total_count % 2 else 0
     return code
 
 # decode a message. Return correcred message, unchanged message if no errors, and False 
@@ -90,9 +66,7 @@ def my_reduce(func, listy):
         total = func(total, elem)
     return total
 
-msg = list("11100110001")
+msg = list("01010101010101010")
 msg = encode(msg)
-msg[10] = int(not msg[10])
 print(msg)
-print(decode(msg))
 
