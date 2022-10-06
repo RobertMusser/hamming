@@ -7,18 +7,22 @@ def encode(message):
     code = list("xxx") + message
     code.insert(4, "x")
     code.insert(8, "x")
-    odd_col     = [3, 5, 7, 9, 11, 13, 15]
-    right_half  = [3, 6, 7, 10, 11, 14, 15]
-    even_rows   = [5, 6, 7, 12, 13, 14, 15]
-    bottom_half = [9, 10, 11, 12, 13, 14, 15]
+    code.insert(16, "x")
+    # now code is padded so indices are constant
+    odd_col_i    = [9,  17, 3,  11, 19, 5,  13, 21, 7,  15]
+    w2_col_i     = [3,  10, 11, 18, 19, 6,  7,  14, 15, 22]
+    right_half_i = [5,  6,  7,  12, 13, 14, 15, 20, 21, 22]
+    mid_row_i    = [9,  10, 11, 12, 13, 14, 15]
+    bottom_row_i = [17, 18, 19, 20, 21, 22]
     # set odd col pairity bit
-    odd_col_count = 0 # number of 1s in the odd cols
-    for i in odd_col:
-        odd_col_count += code[i]
-    if odd_col_count % 2:
-        code[1] = 1
-    else:
-        code[1] = 0
+    odd_col = []
+    for i in odd_col_i:
+        odd_col.append(code[i])
+    code[1] = 1 if odd_col.count(1) % 2 else code[1] = 0
+
+
+
+    # TODO here
     # set odd col pairity bit
     right_half_count = 0 # number of 1s in the odd cols
     for i in right_half:
