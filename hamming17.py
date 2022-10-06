@@ -38,24 +38,20 @@ def encode(message):
 # if there's more than 1 error
 # Stolen from: https://www.youtube.com/watch?v=b3NxrZOu_CE&t=0s
 def decode(code):
-	# xor all every index holding a 1
-	loc = my_reduce(lambda x, y: x ^ y, [i for i, bit in enumerate(code) if bit])
-	# no error
-	if loc == 0:
-		message = [code[3]] + code[5:8] + code[9:16]
-		return message
-	else:
-		# fix single error 
-		code[loc] = int(not code[loc])
-		# now check for multiple errors
-		count = 0
-		for bit in code:
-			count += int(bit)
-		if count % 2:
-			# 2 or more errors, we got nothing
-			return False
-		message = [code[3]] + code[5:8] + code[9:16]
-		return message
+    # xor all every index holding a 1
+    loc = my_reduce(lambda x, y: x ^ y, [i for i, bit in enumerate(code) if bit])
+    # no error
+    if loc == 0:
+        message = [code[3]] + code[5:8] + code[9:16] + code[17:23]
+        return message
+    else:
+        # fix single error 
+        code[loc] = int(not code[loc])
+        # now check for multiple errors
+        if code.count(1) % 2:
+            return False
+        message = [code[3]] + code[5:8] + code[9:16] + code[17:23]
+        return message
 
 # given list (listy), reduces the list with the 2 arg function (func)
 # functools reduce is much more robust, but can't import on the pi...
@@ -68,5 +64,6 @@ def my_reduce(func, listy):
 
 msg = list("01010101010101010")
 msg = encode(msg)
-print(msg)
-
+msg[3] = not msg[3]
+msg[4] = not msg[4]
+print(decode(msg))
